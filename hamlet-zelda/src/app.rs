@@ -59,6 +59,23 @@ impl App {
 	}
 	
 	/*
+	prcesses when a key is pressed
+	
+	code: The key code (see piston::input::keyboard::Key)
+	*/
+	pub fn on_key_down(&mut self, code: i32) {
+		
+	}
+	
+	/*
+	processes when a key is released
+	
+	code: The key code
+	*/
+	pub fn on_key_up(&mut self, code: i32) {
+		
+	}
+	/*
 	render all entities on the window
 	
 	r: RenderArgs from the event

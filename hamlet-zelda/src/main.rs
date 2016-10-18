@@ -12,6 +12,9 @@ use piston_window::{
 	PressEvent,
 	ReleaseEvent,
 	
+	// used to compute input
+	Button,
+	
 	// the opengl
 	OpenGL
 };
@@ -53,11 +56,25 @@ fn main() {
 		
 		// when a key is pressed
 		if let Some(k) = e.press_args() {
-			
+		
+			// checks that the key is on the keyboard
+			// as opposed to a mouse button
+			if let Button::Keyboard(p) = k {
+					
+				// processes the keypress
+				app.on_key_down(p.code());	
+			}
 		}
 		
 		// when a key is released
 		if let Some(k) = e.release_args() {
+			
+			// checks that the key way on the keyboard
+			if let Button::Keyboard(p) = k {
+				
+				// processes the key release
+				app.on_key_up(p.code());
+			}
 			
 		}
 		
