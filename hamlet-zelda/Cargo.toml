@@ -1,0 +1,6 @@
+[package]
+name = "hamlet-zelda"
+version = "0.1.0"
+authors = ["josefwaller <josef@siriusapplications.com>"]
+
+[dependencies]
