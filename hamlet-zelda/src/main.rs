@@ -16,6 +16,9 @@ use piston_window::{
 	OpenGL
 };
 
+// the entities
+mod entities;
+
 // the main app struct
 // see app.rs
 mod app;
