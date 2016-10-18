@@ -19,6 +19,9 @@ use piston_window::{
 // the entities
 mod entities;
 
+// the utilities (structs that do not represent an entity)
+mod utilities;
+
 // the main app struct
 // see app.rs
 mod app;

@@ -5,3 +5,4 @@ authors = ["josefwaller <josef@siriusapplications.com>"]
 
 [dependencies]
 piston_window="0.55.0"
+find_folder="0.3.0"

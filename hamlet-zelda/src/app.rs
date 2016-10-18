@@ -10,14 +10,20 @@ use piston_window::{
 };
 
 
-// uses the player
+// the player
 use entities::player::Player;
+
+// the SpriteStore object
+use utilities::sprite_store::SpriteStore;
 
 // The main app struct which contains all entities 
 pub struct App {
 	
 	// the player
-	player: Player
+	player: Player,
+	
+	// the SpriteStore
+	sprite_store: SpriteStore
 }
 
 impl App {
@@ -25,7 +31,11 @@ impl App {
 	// creates a new app
 	pub fn new() -> App {
 		App {
-			player: Player::new()
+			// creates a new player
+			player: Player::new(),
+			
+			// creates a new spritestore
+			sprite_store: SpriteStore::new()
 		}
 	}
 	
