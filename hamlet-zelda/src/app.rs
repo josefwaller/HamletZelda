@@ -16,7 +16,11 @@ use entities::player::Player;
 // the SpriteStore object
 use utilities::sprite_store::SpriteStore;
 
-// The main app struct which contains all entities 
+/*
+The main app struct which contains all entities  
+Runs their update and render functions as well as 
+some other game logic
+*/
 pub struct App {
 	
 	// the player
@@ -28,7 +32,11 @@ pub struct App {
 
 impl App {
 	
-	// creates a new app
+	/*
+	creates a new app
+	
+	Returns: A new App
+	*/
 	pub fn new() -> App {
 		App {
 			// creates a new player
@@ -39,14 +47,22 @@ impl App {
 		}
 	}
 	
-	// updates positions, status, etc
+	/*
+	updates positions, status, etc
+	
+	u: UpdateArgs from the event
+	*/
 	pub fn update(&mut self, u: &UpdateArgs) {
 		
 		// updates the player
 		self.player.update(u);
 	}
 	
-	// render all entities on the window
+	/*
+	render all entities on the window
+	
+	r: RenderArgs from the event
+	*/
 	pub fn render(&mut self, r: &RenderArgs) {
 		
 		// renders the player

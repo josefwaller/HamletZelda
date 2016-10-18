@@ -34,10 +34,13 @@ fn main() {
 	
 	// creates the window
 	let mut window: PistonWindow = WindowSettings::new("The Legend Of Zelda: Hamlet", [1000, 800])
+	
 	// sets to exit on esc
 	.exit_on_esc(true)
+	
 	// sets opengl to use
 	.opengl(opengl)
+	
 	// builds and unwraps the window
 	.build()
 	.unwrap();

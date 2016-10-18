@@ -9,24 +9,40 @@ use piston_window::{
 	RenderArgs
 };
 
-// the player struct
+/*
+The player struct. Responsible for 
+moving, rendering and anything else 
+concerning the player.
+*/
 pub struct Player {
 	
 }
 
 impl Player {
 	
-	// creates a new player
+	/* 
+	Creates a new player
+	
+	Returns: A new Player object
+	*/
 	pub fn new() -> Player {
 		Player{}
 	}
 	
-	// updates the player
+	/*
+	Updates the player
+	
+	u: UpdateArgs from the window event
+	*/
 	pub fn update(&mut self, u: &UpdateArgs) {
 		
 	}
 	
-	// renders the player
+	/*
+	Renders the player
+	
+	r: RenderArgs from the window event
+	*/
 	pub fn render(&mut self, r: &RenderArgs) {
 		
 	}
