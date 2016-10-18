@@ -16,6 +16,11 @@ use piston_window::{
 	OpenGL
 };
 
+// the main app struct
+// see app.rs
+mod app;
+use app::App;
+
 fn main() {
     
 	// initializes the OpenGL pointers
@@ -30,6 +35,9 @@ fn main() {
 	// builds and unwraps the window
 	.build()
 	.unwrap();
+	
+	// creates the app
+	let mut app = App::new();
 	
 	// cycles through window events
 	while let Some(e) = window.next() {
@@ -47,11 +55,15 @@ fn main() {
 		// when the game should update
 		if let Some(u) = e.update_args() {
 			
+			// updates the game
+			app.update(&u);
 		}
 		
 		// when the game should render
 		if let Some(r) = e.render_args() {
 			
+			// renders the game
+			app.render(&r);
 		}
 		
 	}
