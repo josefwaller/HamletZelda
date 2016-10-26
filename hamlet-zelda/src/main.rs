@@ -25,6 +25,9 @@ mod entities;
 // the utilities (structs that do not represent an entity)
 mod utilities;
 
+// the traits
+mod traits;
+
 // the main app struct
 // see app.rs
 mod app;
