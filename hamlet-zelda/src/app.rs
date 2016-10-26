@@ -6,7 +6,10 @@ use piston_window::{
 	UpdateArgs,
 	
 	// arguments for rendering
-	RenderArgs
+	RenderArgs,
+	
+	// used for loading images (see App::load_images())
+	PistonWindow
 };
 
 
@@ -45,6 +48,15 @@ impl App {
 			// creates a new spritestore
 			sprite_store: SpriteStore::new()
 		}
+	}
+	
+	/*
+	Loads all the images used in the game
+	
+	w: The PistonWindow object, which is used for its Factory attribute
+	*/
+	pub fn load_images(&mut self, w: &mut PistonWindow) {
+		
 	}
 	
 	/*

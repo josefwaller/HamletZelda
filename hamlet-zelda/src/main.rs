@@ -54,6 +54,9 @@ fn main() {
 	// creates the app
 	let mut app = App::new();
 	
+	// loads all the images before starting the game loop
+	app.load_images(&mut window);
+	
 	// cycles through window events
 	while let Some(e) = window.next() {
 		
