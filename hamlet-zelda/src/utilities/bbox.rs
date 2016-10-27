@@ -4,10 +4,10 @@ as well as width and height. Its main purpose is to
 be used in the HasBBox trait (see traits/has_bbox.rs)
 */
 pub struct BBox {
-	x: f64,
-	y: f64,
-	w: f64,
-	h: f64
+	pub x: f64,
+	pub y: f64,
+	pub w: f64,
+	pub h: f64
 }
 
 impl BBox {

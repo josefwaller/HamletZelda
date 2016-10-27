@@ -1,4 +1,5 @@
 extern crate piston_window;
+extern crate gfx_device_gl;
 
 use piston_window::{
 	
@@ -9,8 +10,14 @@ use piston_window::{
 	RenderArgs,
 	
 	// used for loading images (see App::load_images())
-	PistonWindow
+	PistonWindow,
+
+	Context,
+	rectangle,
+	Graphics
 };
+
+// use gfx_device_gl::GfxGraphics;
 
 
 // the player
@@ -92,10 +99,10 @@ impl App {
 	
 	r: RenderArgs from the event
 	*/
-	pub fn render(&mut self, r: &RenderArgs) {
-		
+	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, c: Context, g: &mut T) {
+
 		// renders the player
-		self.player.render(r);
+		self.player.render(r, &mut self.sprite_store, c, g);
 		
 	}
 }

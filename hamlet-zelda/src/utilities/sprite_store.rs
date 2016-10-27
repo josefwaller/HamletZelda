@@ -13,7 +13,12 @@ use piston_window::{
 	Flip,
 	
 	// used to load images (PistonWindow.Factory is required)
-	PistonWindow
+	PistonWindow,
+
+	// used to draw images
+	Graphics,
+	Context,
+	rectangle
 	
 };
 
@@ -22,6 +27,10 @@ use std::path::Path;
 
 // used to hold the textures
 use std::collections::HashMap;
+
+// used to position and scale the sprites
+use utilities::bbox::BBox;
+
 
 /*
 the SpriteStore object
@@ -91,7 +100,15 @@ impl SpriteStore {
 	h: The height
 	key: The key (or path) of the sprite
 	*/
-	pub fn render_sprite(&mut self, x: f64, y: f64, w: f64, h: f64, key: &str) {
-		
+	pub fn render_sprite<T: Graphics>(&mut self, bbox: BBox, key: &str, c: Context, g: &mut T) {
+
+		// draws a white rectangle in debug mode		
+		rectangle(
+			[1.0; 4],
+			[bbox.x, bbox.y, bbox.w, bbox.h],
+			c.transform,
+			g
+		);
+
 	}
 }

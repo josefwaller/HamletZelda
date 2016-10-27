@@ -6,7 +6,11 @@ use piston_window::{
 	UpdateArgs,
 	
 	// arguments for rendering
-	RenderArgs
+	RenderArgs,
+
+	// just passed down to the spritestore for rendering
+	Graphics,
+	Context
 };
 
 // see traits/has_bbox.rs
@@ -14,7 +18,7 @@ use traits::has_bbox::HasBBox;
 
 // used for HasBBox
 use utilities::bbox::BBox;
-
+use utilities::sprite_store::SpriteStore;
 /*
 The player struct. Responsible for 
 moving, rendering and anything else 
@@ -38,8 +42,8 @@ impl Player {
 		Player{
 			x: 0.0,
 			y: 0.0,
-			w: 0.0,
-			h: 0.0
+			w: 20.0,
+			h: 20.0
 		}
 	}
 	
@@ -57,8 +61,15 @@ impl Player {
 	
 	r: RenderArgs from the window event
 	*/
-	pub fn render(&mut self, r: &RenderArgs) {
+	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, ss: &mut SpriteStore, c: Context, g: &mut T) {
 		
+		ss.render_sprite(
+			self.get_bbox(),
+			"This will be a key eventually, but right now it can be anything",
+			c,
+			g
+		);
+
 	}
 }
 

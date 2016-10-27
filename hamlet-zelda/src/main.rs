@@ -1,4 +1,5 @@
 extern crate piston_window;
+extern crate gfx_device_gl;
 
 use piston_window::{
 	
@@ -16,7 +17,9 @@ use piston_window::{
 	Button,
 	
 	// the opengl
-	OpenGL
+	OpenGL,
+
+	rectangle
 };
 
 // the entities
@@ -94,8 +97,12 @@ fn main() {
 		// when the game should render
 		if let Some(r) = e.render_args() {
 			
-			// renders the game
-			app.render(&r);
+			window.draw_2d(&e, |c, g|{
+
+				// renders the game
+				app.render(&r, c, g);
+				
+			});
 		}
 		
 	}
