@@ -12,6 +12,7 @@ use piston_window::{
 	// used for loading images (see App::load_images())
 	PistonWindow,
 
+	// used for rendering
 	Context,
 	rectangle,
 	Graphics
@@ -37,7 +38,10 @@ pub struct App {
 	player: Player,
 	
 	// the SpriteStore
-	sprite_store: SpriteStore
+	sprite_store: SpriteStore,
+	
+	// the keys which are currently down
+	keys: Vec<i32>
 }
 
 impl App {
@@ -53,7 +57,10 @@ impl App {
 			player: Player::new(),
 			
 			// creates a new spritestore
-			sprite_store: SpriteStore::new()
+			sprite_store: SpriteStore::new(),
+			
+			// creates a new vector
+			keys: Vec::new()
 		}
 	}
 	
@@ -84,6 +91,15 @@ impl App {
 	*/
 	pub fn on_key_down(&mut self, code: i32) {
 		
+		// checks this key is not already recorded as being pushed down
+		match self.keys.iter().position(|&e| e == code) {
+			
+			// adds the key
+			None => self.keys.push(code),
+			_ => {}
+			
+		}
+		
 	}
 	
 	/*
@@ -92,6 +108,16 @@ impl App {
 	code: The key code
 	*/
 	pub fn on_key_up(&mut self, code: i32) {
+		
+		// gets the index of the key
+		match self.keys.iter().position(|&e| e == code) {
+			Some(i) => {
+				
+				// removes the key
+				self.keys.remove(i);
+			}
+			_ => {}
+		}
 		
 	}
 	/*
