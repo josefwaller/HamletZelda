@@ -58,10 +58,10 @@ impl Player {
 		Player{
 			x: 0.0,
 			y: 0.0,
-			w: 20.0,
-			h: 20.0,
+			w: 50.0,
+			h: 50.0,
 			
-			speed: 30.0
+			speed: 50.0
 		}
 	}
 	

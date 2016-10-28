@@ -15,7 +15,8 @@ use piston_window::{
 	// used for rendering
 	Context,
 	rectangle,
-	Graphics
+	Graphics,
+	clear
 };
 
 // use gfx_device_gl::GfxGraphics;
@@ -126,6 +127,9 @@ impl App {
 	r: RenderArgs from the event
 	*/
 	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, c: Context, g: &mut T) {
+
+		// clears the screen
+		clear([0.0; 4], g);
 
 		// renders the player
 		self.sprite_store.render_entity(&mut self.player, c, g);
