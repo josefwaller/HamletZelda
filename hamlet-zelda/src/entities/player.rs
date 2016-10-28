@@ -13,12 +13,18 @@ use piston_window::{
 	Context
 };
 
+// see traits/has_sprite.rs
+use traits::has_sprite::HasSprite;
+
 // see traits/has_bbox.rs
 use traits::has_bbox::HasBBox;
 
 // used for HasBBox
 use utilities::bbox::BBox;
+
+// used for rendering
 use utilities::sprite_store::SpriteStore;
+
 /*
 The player struct. Responsible for 
 moving, rendering and anything else 
@@ -55,22 +61,6 @@ impl Player {
 	pub fn update(&mut self, u: &UpdateArgs) {
 		
 	}
-	
-	/*
-	Renders the player
-	
-	r: RenderArgs from the window event
-	*/
-	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, ss: &mut SpriteStore, c: Context, g: &mut T) {
-		
-		ss.render_sprite(
-			self.get_bbox(),
-			"This will be a key eventually, but right now it can be anything",
-			c,
-			g
-		);
-
-	}
 }
 
 impl HasBBox for Player {
@@ -87,5 +77,19 @@ impl HasBBox for Player {
 			self.w,
 			self.h
 		)
+	}
+}
+
+impl HasSprite for Player {
+	
+	/*
+	See has_sprite.rs
+	*/
+	fn get_sprite(&mut self) -> String {
+		
+		// temporarily returns a nonsense string
+		// will return a sprite key when sprites are
+		// implemented
+		String::from("Hello World!")
 	}
 }

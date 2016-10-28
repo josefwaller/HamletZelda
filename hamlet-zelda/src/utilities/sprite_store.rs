@@ -29,7 +29,11 @@ use std::path::Path;
 use std::collections::HashMap;
 
 // used to position and scale the sprites
+use traits::has_bbox::HasBBox;
 use utilities::bbox::BBox;
+
+// used to make sure the entity has a sprite
+use traits::has_sprite::HasSprite;
 
 
 /*
@@ -93,14 +97,18 @@ impl SpriteStore {
 	}
 	
 	/*
-	Renders a sprite on the screen
-	x: The x coordinate
-	y: The y coordinate
-	w: The width
-	h: The height
-	key: The key (or path) of the sprite
+	Renders an entity on the screen
+	
+	entity: The entity to render
+		-> Must be able to get a BBox and sprite key from it
+	c: The context
+	g: The Graphics
 	*/
-	pub fn render_sprite<T: Graphics>(&mut self, bbox: BBox, key: &str, c: Context, g: &mut T) {
+	pub fn render_entity<T: HasBBox + HasSprite, G: Graphics>(&mut self, entity: &mut T, c: Context, g: &mut G) {
+
+		// gets the bounding box and sprite to draw
+		let bbox: BBox = entity.get_bbox();
+		let sprite = entity.get_sprite();
 
 		// draws a white rectangle in debug mode		
 		rectangle(

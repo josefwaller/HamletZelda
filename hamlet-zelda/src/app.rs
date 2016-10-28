@@ -128,7 +128,7 @@ impl App {
 	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, c: Context, g: &mut T) {
 
 		// renders the player
-		self.player.render(r, &mut self.sprite_store, c, g);
+		self.sprite_store.render_entity(&mut self.player, c, g);
 		
 	}
 }
