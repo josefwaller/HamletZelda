@@ -10,8 +10,13 @@ use piston_window::{
 
 	// just passed down to the spritestore for rendering
 	Graphics,
-	Context
+	Context,
+	
+	Key
 };
+
+// used to process key movements
+use std::vec::Vec;
 
 // see traits/has_sprite.rs
 use traits::has_sprite::HasSprite;
@@ -31,10 +36,15 @@ moving, rendering and anything else
 concerning the player.
 */
 pub struct Player {
+	
+	// the position of the player
 	x: f64,
 	y: f64,
 	w: f64,
-	h: f64
+	h: f64,
+	
+	// the speed
+	speed: f64
 }
 
 impl Player {
@@ -49,7 +59,9 @@ impl Player {
 			x: 0.0,
 			y: 0.0,
 			w: 20.0,
-			h: 20.0
+			h: 20.0,
+			
+			speed: 30.0
 		}
 	}
 	
@@ -58,7 +70,29 @@ impl Player {
 	
 	u: UpdateArgs from the window event
 	*/
-	pub fn update(&mut self, u: &UpdateArgs) {
+	pub fn update(&mut self, u: &UpdateArgs, keys: &Vec<i32>) {
+		
+		for key in keys.iter() {
+			
+			// checks if each key is currently pressed
+			if key == &Key::Left.code() {
+				
+				// moves the player over
+				self.x -= self.speed * u.dt;
+			
+			// repeats for each key	
+			} else if key == &Key::Right.code() {
+				self.x += self.speed * u.dt;
+				
+			} else if key == &Key::Up.code() {
+				self.y -= self.speed * u.dt;
+				
+			} else if key == &Key::Down.code() {
+				self.y += self.speed * u.dt;
+				
+			}
+			
+		}
 		
 	}
 }

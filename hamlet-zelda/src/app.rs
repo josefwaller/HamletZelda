@@ -81,7 +81,7 @@ impl App {
 	pub fn update(&mut self, u: &UpdateArgs) {
 		
 		// updates the player
-		self.player.update(u);
+		self.player.update(u, &self.keys);
 	}
 	
 	/*
