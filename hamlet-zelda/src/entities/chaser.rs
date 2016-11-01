@@ -10,6 +10,8 @@ use utilities::bbox::BBox;
 use traits::has_sprite::HasSprite;
 use traits::is_enemy::IsEnemy;
 
+use entities::player::Player;
+
 /*
 An Enemy that chases the player if it sees him
 */
@@ -42,10 +44,6 @@ impl Chaser {
 			
 			direction: 0
 		}
-	}
-	
-	fn update (&mut self, u: &UpdateArgs) {
-		
 	}
 }
 
@@ -87,4 +85,34 @@ see traits/is_enemy.rs
 */
 impl IsEnemy for Chaser {
 	
+	fn update(&mut self, u: &UpdateArgs, p: &mut Player) {
+		
+		// gets the player's position
+		let bbox = p.get_bbox();
+		
+		// getsthe difference between the player and enemy
+		let diff_x = bbox.x - self.x;
+		let diff_y = bbox.y - self.y;
+		
+		// gets the angle	
+		let theta = f64::atan(diff_y / diff_x);
+		
+		// finds how much the enemy can move in each coordinate
+		// without going over their speed
+		let mut x = self.speed * f64::cos(theta);
+		let mut y = self.speed * f64::sin(theta);
+		
+		// if the enemy is on the right of the player,
+		// atan will still return a positive number so
+		// the enemy needs to run the other way
+		if diff_x < 0.0 {
+			x *= -1.0;
+			y *= -1.0;
+		}
+		
+		// moves the enemy
+		self.x += x * u.dt;
+		self.y += y * u.dt;
+		
+	}
 }

@@ -102,7 +102,7 @@ impl App {
 		// updates the enemies
 		for e in &mut self.enemies {
 			
-			e.update(&u);
+			e.update(&u, &mut self.player);
 		}
 	}
 	
