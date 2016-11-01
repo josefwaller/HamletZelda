@@ -113,17 +113,21 @@ impl HasBBox for Player {
 		)
 	}
 }
-
+	
+/*
+See has_sprite.rs
+*/
 impl HasSprite for Player {
 	
-	/*
-	See has_sprite.rs
-	*/
 	fn get_sprite(&mut self) -> String {
 		
 		// temporarily returns a nonsense string
 		// will return a sprite key when sprites are
 		// implemented
 		String::from("Hello World!")
+	}
+	
+	fn get_debug_color(&mut self) -> [f32; 4] {
+		[1.0, 0.0, 0.0, 1.0]
 	}
 }

@@ -19,14 +19,24 @@ use piston_window::{
 	clear
 };
 
-// use gfx_device_gl::GfxGraphics;
+// allows different types of enemies to be stored in the same array
+use std::boxed::Box;
 
+// common trait for all enemies
+use traits::is_enemy::IsEnemy;
+
+// see entities/chaser.rs
+use entities::chaser::Chaser;
 
 // the player
 use entities::player::Player;
 
 // the SpriteStore object
 use utilities::sprite_store::SpriteStore;
+
+// traits
+use traits::has_bbox::HasBBox;
+use traits::has_sprite::HasSprite;
 
 /*
 The main app struct which contains all entities  
@@ -42,7 +52,10 @@ pub struct App {
 	sprite_store: SpriteStore,
 	
 	// the keys which are currently down
-	keys: Vec<i32>
+	keys: Vec<i32>,
+	
+	// the enemies
+	enemies: Vec<Box<IsEnemy>>
 }
 
 impl App {
@@ -61,7 +74,9 @@ impl App {
 			sprite_store: SpriteStore::new(),
 			
 			// creates a new vector
-			keys: Vec::new()
+			keys: Vec::new(),
+			
+			enemies: vec![Box::new(Chaser::new(300.0, 300.0))]
 		}
 	}
 	
@@ -82,7 +97,13 @@ impl App {
 	pub fn update(&mut self, u: &UpdateArgs) {
 		
 		// updates the player
-		self.player.update(u, &self.keys);
+		self.player.update(&u, &self.keys);
+		
+		// updates the enemies
+		for e in &mut self.enemies {
+			
+			e.update(&u);
+		}
 	}
 	
 	/*
@@ -125,6 +146,8 @@ impl App {
 	render all entities on the window
 	
 	r: RenderArgs from the event
+	c: The Context Object
+	g: The Graphics Object
 	*/
 	pub fn render<T: Graphics>(&mut self, r: &RenderArgs, c: Context, g: &mut T) {
 
@@ -132,7 +155,21 @@ impl App {
 		clear([0.0; 4], g);
 
 		// renders the player
-		self.sprite_store.render_entity(&mut self.player, c, g);
+		self.sprite_store.render_sprite(
+			self.player.get_bbox(), 
+			self.player.get_sprite(), 
+			self.player.get_debug_color(), 
+			c, g);
+		
+		// renders the enemies
+		for e in &mut self.enemies {
+			
+			self.sprite_store.render_sprite(
+				e.get_bbox(),
+				e.get_sprite(),
+				e.get_debug_color(),
+				c, g);
+		}
 		
 	}
 }

@@ -97,22 +97,20 @@ impl SpriteStore {
 	}
 	
 	/*
-	Renders an entity on the screen
+	Renders a sprite on the screen
 	
-	entity: The entity to render
-		-> Must be able to get a BBox and sprite key from it
+	bbox: The bounding box to draw the sprite in
+	sprite: The String key of the sprite
+	debug: The color to draw the rectangle in debug mode
 	c: The context
 	g: The Graphics
 	*/
-	pub fn render_entity<T: HasBBox + HasSprite, G: Graphics>(&mut self, entity: &mut T, c: Context, g: &mut G) {
-
-		// gets the bounding box and sprite to draw
-		let bbox: BBox = entity.get_bbox();
-		let sprite = entity.get_sprite();
+	pub fn render_sprite<G: Graphics>
+	(&mut self, bbox: BBox, sprite: String, debug: [f32; 4], c: Context, g: &mut G) {
 
 		// draws a white rectangle in debug mode		
 		rectangle(
-			[1.0; 4],
+			debug,
 			[bbox.x, bbox.y, bbox.w, bbox.h],
 			c.transform,
 			g
