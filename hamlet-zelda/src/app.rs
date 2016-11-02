@@ -76,7 +76,7 @@ impl App {
 			// creates a new vector
 			keys: Vec::new(),
 			
-			enemies: vec![Box::new(Chaser::new(300.0, 300.0, [[10.0, 0.0], [10.0, 10.0]]))]
+			enemies: vec![Box::new(Chaser::new(300.0, 300.0, [[200.0, 300.0], [400.0, 300.0]]))]
 		}
 	}
 	

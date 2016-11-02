@@ -26,6 +26,9 @@ pub struct Chaser {
 	// its speed
 	speed: f64,
 	
+	// its speed when chasing the player
+	chase_speed: f64,
+	
 	// which direction it's looking
 	direction: u8,
 	
@@ -57,6 +60,8 @@ impl Chaser {
 			h: 50.0,
 			
 			speed: 20.0,
+			chase_speed: 40.0,
+			
 			view: 200.0,
 			
 			patrol: patrol,
@@ -122,7 +127,7 @@ impl Chaser {
 	*/
 	fn chase_player(&mut self, bbox: &BBox, u: &UpdateArgs) {
 		
-		let speed = self.speed.clone();
+		let speed = self.chase_speed.clone();
 		self.move_to_point(bbox.x + bbox.w / 2.0, bbox.y + bbox.h / 2.0, speed, &u);
 		
 	}
@@ -137,7 +142,26 @@ impl Chaser {
 		// gets the point it needs to walk to
 		let point = self.patrol[self.patrol_index];
 		
+		// checks if the enemy has reached the point
+		if self.x < point[0] {
+			if self.x + self.w > point[0] {
+				if self.y < point[1] {
+					if self.y + self.h > point[1] {
+						
+						// moves to the next point
+						self.patrol_index = (self.patrol_index + 1) % self.patrol.len();
+						
+					}
+				}
+			}
+		}
 		
+		
+		let point = self.patrol[self.patrol_index];
+		
+		// moves towards the point
+		let speed = self.speed.clone();
+		self.move_to_point(point[0], point[1], speed, &u);
 	}
 	
 	/*
