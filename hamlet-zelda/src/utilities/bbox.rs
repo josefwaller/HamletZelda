@@ -28,4 +28,25 @@ impl BBox {
 			h: h
 		}
 	}	
+	
+	/* 
+	Checks if this BBox collides with anoth BBox
+	
+	bbox: The other BBox
+	*/
+	pub fn collides(&mut self, bbox: BBox) -> bool {
+		
+		if self.x < bbox.x + bbox.w {
+			if self.x + self.w > bbox.x {
+				if self.y < bbox.y + bbox.h {
+					if self.y + self.h > bbox.y {
+						return true
+					}
+				}
+			}
+		}
+		
+		false
+		
+	}
 }
