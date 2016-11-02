@@ -173,6 +173,29 @@ impl IsEnemy for Chaser {
 			// moves the enemy
 			self.x += x * u.dt;
 			self.y += y * u.dt;
+			
+			// checks if the enemy needs to change direction
+				
+			// checks if the player is closer to directly above/below the enemy
+			if diff_x.abs() < diff_y.abs() {
+				
+				// checks if the player is above or below
+				if diff_y > 0.0 {
+					self.direction = self.DOWN();
+				} else {
+					self.direction = self.UP();
+				}
+				
+			} else {
+				// the player is closer to directly right/left than up/down
+				
+				// checks if the player is left or right
+				if diff_x > 0.0 {
+					self.direction = self.RIGHT();
+				} else {
+					self.direction = self.LEFT();
+				}
+			}
 		}
 		
 	}
