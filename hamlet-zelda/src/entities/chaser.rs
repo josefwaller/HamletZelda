@@ -121,10 +121,38 @@ impl Chaser {
 	u: The Update Args
 	*/
 	fn chase_player(&mut self, bbox: &BBox, u: &UpdateArgs) {
+		
+		let speed = self.speed.clone();
+		self.move_to_point(bbox.x + bbox.w / 2.0, bbox.y + bbox.h / 2.0, speed, &u);
+		
+	}
+	
+	/*
+	Patrols between the enemy's two patrol points
+	
+	u: The UpdateArgs
+	*/
+	fn patrol(&mut self, u: &UpdateArgs) {
+		
+		// gets the point it needs to walk to
+		let point = self.patrol[self.patrol_index];
+		
+		
+	}
+	
+	/*
+	Moves the enemy towards a point with the speed given
+	
+	x: The X coordinate
+	y: The Y coordinate
+	speed: The speed at which to move the enemy
+	u: The Update Args
+	*/
+	fn move_to_point(&mut self, x: f64, y: f64, speed: f64, u: &UpdateArgs) {
 			
-		// gets the difference between the player and enemy
-		let diff_x = bbox.x - self.x;
-		let diff_y = bbox.y - self.y;
+		// gets the difference between the point and enemy
+		let diff_x = x - (self.x + self.w / 2.0);
+		let diff_y = y - (self.y + self.h / 2.0);
 		
 		// gets the angle	
 		let theta = f64::atan(diff_y / diff_x);
@@ -134,7 +162,7 @@ impl Chaser {
 		let mut x = self.speed * f64::cos(theta);
 		let mut y = self.speed * f64::sin(theta);
 		
-		// if the enemy is on the right of the player,
+		// if the enemy is on the right of the point,
 		// atan will still return a positive number so
 		// the enemy needs to run the other way
 		if diff_x < 0.0 {
@@ -148,10 +176,10 @@ impl Chaser {
 		
 		// checks if the enemy needs to change direction
 			
-		// checks if the player is closer to directly above/below the enemy
+		// checks if the point is closer to directly above/below the enemy
 		if diff_x.abs() < diff_y.abs() {
 			
-			// checks if the player is above or below
+			// checks if the point is above or below
 			if diff_y > 0.0 {
 				self.direction = self.DOWN();
 			} else {
@@ -168,17 +196,6 @@ impl Chaser {
 				self.direction = self.LEFT();
 			}
 		}
-		
-	}
-	
-	/*
-	Patrols between the enemy's two patrol points
-	
-	u: The UpdateArgs
-	*/
-	fn patrol(&mut self, u: &UpdateArgs) {
-		
-		
 		
 	}
 }
