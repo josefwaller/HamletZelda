@@ -170,6 +170,17 @@ impl Chaser {
 		}
 		
 	}
+	
+	/*
+	Patrols between the enemy's two patrol points
+	
+	u: The UpdateArgs
+	*/
+	fn patrol(&mut self, u: &UpdateArgs) {
+		
+		
+		
+	}
 }
 
 impl HasBBox for Chaser {
@@ -218,7 +229,14 @@ impl IsEnemy for Chaser {
 		// checks if the chaser can see the player
 		if self.can_see_player(&bbox) {
 			
+			// chases the player
 			self.chase_player(&bbox, &u);
+			
+		} else {
+			
+			// walks between the two patrol points
+			self.patrol(&u);
+			
 		}
 		
 	}
