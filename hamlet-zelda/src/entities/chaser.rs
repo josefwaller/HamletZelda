@@ -29,6 +29,12 @@ pub struct Chaser {
 	// which direction it's looking
 	direction: u8,
 	
+	// the points to walk between
+	patrol: [[f64; 2]; 2],
+	
+	// the index of the current point it is walking to
+	patrol_index: usize,
+	
 	// how far it can look
 	view: f64
 
@@ -40,8 +46,10 @@ impl Chaser {
 	Returns a new Chaser Enemy
 	x: The X coordinate to start at
 	y: The Y coordinate to start at
+	patrol: An array of coordinates to walk to
+		Ex: [[0, 0], [1, 1]] would tell the chaser to patrol between (x=0, y=0) and (x=1, y=1)
 	*/
-	pub fn new(x: f64, y: f64) -> Chaser {
+	pub fn new(x: f64, y: f64, patrol: [[f64; 2]; 2]) -> Chaser {
 		Chaser {
 			x: x,
 			y: y,
@@ -51,6 +59,8 @@ impl Chaser {
 			speed: 20.0,
 			view: 200.0,
 			
+			patrol: patrol,
+			patrol_index: 0,
 			direction: 0
 		}
 	}
@@ -63,6 +73,7 @@ impl Chaser {
 	
 	/* 
 	Checks if the enemy can see the player
+	
 	bbox: The Bounding Box of the player
 	*/
 	fn can_see_player(&mut self, bbox: &BBox) -> bool{
@@ -101,6 +112,63 @@ impl Chaser {
 		}
 		
 		false
+	}
+	
+	/*
+	Moves the Enemy towards the player
+	
+	bbox: The Bounding Box of the player
+	u: The Update Args
+	*/
+	fn chase_player(&mut self, bbox: &BBox, u: &UpdateArgs) {
+			
+		// gets the difference between the player and enemy
+		let diff_x = bbox.x - self.x;
+		let diff_y = bbox.y - self.y;
+		
+		// gets the angle	
+		let theta = f64::atan(diff_y / diff_x);
+		
+		// finds how much the enemy can move in each coordinate
+		// without going over their speed
+		let mut x = self.speed * f64::cos(theta);
+		let mut y = self.speed * f64::sin(theta);
+		
+		// if the enemy is on the right of the player,
+		// atan will still return a positive number so
+		// the enemy needs to run the other way
+		if diff_x < 0.0 {
+			x *= -1.0;
+			y *= -1.0;
+		}
+		
+		// moves the enemy
+		self.x += x * u.dt;
+		self.y += y * u.dt;
+		
+		// checks if the enemy needs to change direction
+			
+		// checks if the player is closer to directly above/below the enemy
+		if diff_x.abs() < diff_y.abs() {
+			
+			// checks if the player is above or below
+			if diff_y > 0.0 {
+				self.direction = self.DOWN();
+			} else {
+				self.direction = self.UP();
+			}
+			
+		} else {
+			// the player is closer to directly right/left than up/down
+			
+			// checks if the player is left or right
+			if diff_x > 0.0 {
+				self.direction = self.RIGHT();
+			} else {
+				self.direction = self.LEFT();
+			}
+		}
+		
 	}
 }
 
@@ -150,52 +218,7 @@ impl IsEnemy for Chaser {
 		// checks if the chaser can see the player
 		if self.can_see_player(&bbox) {
 			
-			// gets the difference between the player and enemy
-			let diff_x = bbox.x - self.x;
-			let diff_y = bbox.y - self.y;
-			
-			// gets the angle	
-			let theta = f64::atan(diff_y / diff_x);
-			
-			// finds how much the enemy can move in each coordinate
-			// without going over their speed
-			let mut x = self.speed * f64::cos(theta);
-			let mut y = self.speed * f64::sin(theta);
-			
-			// if the enemy is on the right of the player,
-			// atan will still return a positive number so
-			// the enemy needs to run the other way
-			if diff_x < 0.0 {
-				x *= -1.0;
-				y *= -1.0;
-			}
-			
-			// moves the enemy
-			self.x += x * u.dt;
-			self.y += y * u.dt;
-			
-			// checks if the enemy needs to change direction
-				
-			// checks if the player is closer to directly above/below the enemy
-			if diff_x.abs() < diff_y.abs() {
-				
-				// checks if the player is above or below
-				if diff_y > 0.0 {
-					self.direction = self.DOWN();
-				} else {
-					self.direction = self.UP();
-				}
-				
-			} else {
-				// the player is closer to directly right/left than up/down
-				
-				// checks if the player is left or right
-				if diff_x > 0.0 {
-					self.direction = self.RIGHT();
-				} else {
-					self.direction = self.LEFT();
-				}
-			}
+			self.chase_player(&bbox, &u);
 		}
 		
 	}
