@@ -12,4 +12,58 @@ pub trait Direction {
 	fn DOWN(&mut self) -> u8 {1}
 	fn LEFT(&mut self) -> u8 {2}
 	fn RIGHT(&mut self) -> u8 {3}
+	
+	// returns the integer version of the current direction
+	fn get_direction(&mut self) -> u8;
+	
+	// sets the direction
+	fn set_direction(&mut self, d: u8);
+	
+	// turns the direction left or right
+	fn turn_left(&mut self) {
+		
+		let direction = self.get_direction();
+		
+		if direction == self.UP() {	
+			let dir = self.LEFT(); 
+ 			self.set_direction(dir);
+			
+		} else if direction == self.LEFT() {
+			let dir = self.DOWN(); 
+ 			self.set_direction(dir);
+			
+		} else if direction == self.DOWN() {
+			let dir = self.RIGHT(); 
+ 			self.set_direction(dir);
+			
+		} else {
+			let dir = self.UP(); 
+ 			self.set_direction(dir);
+			
+		}
+		
+	}
+	
+	fn turn_right(&mut self) {
+		
+		let direction = self.get_direction();
+		
+		if direction == self.UP() {			
+			let dir = self.RIGHT(); 
+ 			self.set_direction(dir);
+			
+		} else if direction == self.RIGHT() {
+			let dir = self.DOWN(); 
+ 			self.set_direction(dir);
+			
+		} else if direction == self.DOWN() {
+			let dir = self.LEFT(); 
+ 			self.set_direction(dir);
+			
+		} else {
+			let dir = self.UP(); 
+ 			self.set_direction(dir);
+			
+		}
+	}
 }
