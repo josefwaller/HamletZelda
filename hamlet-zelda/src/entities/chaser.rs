@@ -1,4 +1,5 @@
 extern crate piston_window;
+extern crate time;
 
 use piston_window::{
 	UpdateArgs
@@ -11,6 +12,12 @@ use traits::has_sprite::HasSprite;
 use traits::is_enemy::IsEnemy;
 
 use entities::player::Player;
+
+// see traits/direction.rs
+use traits::direction::Direction;
+
+// used to time the enemy's actions
+use std::time::SystemTime;
 
 /*
 An Enemy that chases the player if it sees him
@@ -37,6 +44,10 @@ pub struct Chaser {
 	
 	// the index of the current point it is walking to
 	patrol_index: usize,
+	
+	// whether the enemy is at one of its patrol points and looking around
+	// or walking
+	look_time: time::Timespec,
 	
 	// how far it can look
 	view: f64
@@ -66,15 +77,10 @@ impl Chaser {
 			
 			patrol: patrol,
 			patrol_index: 0,
+			look_time: time::now().to_timespec(),
 			direction: 0
 		}
 	}
-	
-	//Integer representations of different directions
-	fn UP(&mut self) -> u8 {0}
-	fn DOWN(&mut self) -> u8 {1}
-	fn LEFT(&mut self) -> u8 {2}
-	fn RIGHT(&mut self) -> u8 {3}
 	
 	/* 
 	Checks if the enemy can see the player
@@ -223,6 +229,8 @@ impl Chaser {
 		
 	}
 }
+
+impl Direction for Chaser {}
 
 impl HasBBox for Chaser {
 	
