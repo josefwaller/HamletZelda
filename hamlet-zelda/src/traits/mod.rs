@@ -1,5 +1,5 @@
-// see has_bbox.rs
-pub mod has_bbox;
+// see position.rs
+pub mod position;
 
 // see has_sprite.rs
 pub mod has_sprite;

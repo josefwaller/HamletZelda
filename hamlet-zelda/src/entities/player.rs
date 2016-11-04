@@ -21,8 +21,8 @@ use std::vec::Vec;
 // see traits/has_sprite.rs
 use traits::has_sprite::HasSprite;
 
-// see traits/has_bbox.rs
-use traits::has_bbox::HasBBox;
+// see traits/position.rs
+use traits::position::Position;
 
 // used for HasBBox
 use utilities::bbox::BBox;
@@ -97,11 +97,9 @@ impl Player {
 	}
 }
 
-impl HasBBox for Player {
+// see position.rs
+impl Position for Player {
 	
-	/*
-	See hes_bbox.rs
-	*/
 	fn get_bbox(&mut self) -> BBox {
 		
 		// returns a Bounding box of the player
@@ -111,6 +109,11 @@ impl HasBBox for Player {
 			self.w,
 			self.h
 		)
+	}
+	
+	fn set_position(&mut self, x: f64, y: f64) {
+		self.x = x;
+		self.y = y;
 	}
 }
 	

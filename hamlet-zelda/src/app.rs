@@ -25,6 +25,9 @@ use std::boxed::Box;
 // common trait for all enemies
 use traits::is_enemy::IsEnemy;
 
+// position
+use traits::position::Position;
+
 // see entities/chaser.rs
 use entities::chaser::Chaser;
 
@@ -35,7 +38,6 @@ use entities::player::Player;
 use utilities::sprite_store::SpriteStore;
 
 // traits
-use traits::has_bbox::HasBBox;
 use traits::has_sprite::HasSprite;
 
 /*

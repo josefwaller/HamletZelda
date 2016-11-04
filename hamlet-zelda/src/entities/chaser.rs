@@ -5,7 +5,7 @@ use piston_window::{
 	UpdateArgs
 };
 
-use traits::has_bbox::HasBBox;
+use traits::position::Position;
 use utilities::bbox::BBox;
 
 use traits::has_sprite::HasSprite;
@@ -317,6 +317,7 @@ impl Chaser {
 	}
 }
 
+// see traits/direction.rs
 impl Direction for Chaser {
 	fn get_direction(&mut self) -> u8 { self.direction }
 	fn set_direction(&mut self, d: u8) {
@@ -324,7 +325,8 @@ impl Direction for Chaser {
 	}
 }
 
-impl HasBBox for Chaser {
+// see traits/position.rs
+impl Position for Chaser {
 	
 	/*
 	see traits/get_bbox.rs
@@ -337,6 +339,11 @@ impl HasBBox for Chaser {
 			self.w,
 			self.h
 		)
+	}
+	
+	fn set_position(&mut self, x: f64, y: f64) {
+		self.x = x;
+		self.y = y;
 	}
 }
 

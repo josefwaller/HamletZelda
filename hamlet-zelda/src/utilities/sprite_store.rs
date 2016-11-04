@@ -29,7 +29,6 @@ use std::path::Path;
 use std::collections::HashMap;
 
 // used to position and scale the sprites
-use traits::has_bbox::HasBBox;
 use utilities::bbox::BBox;
 
 // used to make sure the entity has a sprite

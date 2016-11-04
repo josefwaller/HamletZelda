@@ -6,7 +6,7 @@ use piston_window::UpdateArgs;
 // see traits/mod.rs for corresponding file
 use traits::direction::Direction;
 use traits::has_sprite::HasSprite;
-use traits::has_bbox::HasBBox;
+use traits::position::Position;
 use traits::is_enemy::IsEnemy;
 
 // see utilities/bbox.rs
@@ -50,8 +50,8 @@ impl IsEnemy for Archer {
 	}
 }
 
-// see traits/has_bbox.rs
-impl HasBBox for Archer {
+// see traits/position.rs
+impl Position for Archer {
 	fn get_bbox(&mut self) -> BBox {
 		BBox::new(
 			self.x,
@@ -59,6 +59,11 @@ impl HasBBox for Archer {
 			self.w,
 			self.h
 		)
+	}
+	
+	fn set_position(&mut self, x: f64, y: f64) {
+		self.x = x;
+		self.y = y;
 	}
 }
 
