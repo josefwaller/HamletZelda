@@ -36,6 +36,9 @@ pub struct Chaser {
 	// its speed when chasing the player
 	chase_speed: f64,
 	
+	// whether the enemy is chasing the player
+	is_chasing_player: bool,
+	
 	// which direction it's looking
 	direction: u8,
 	
@@ -79,6 +82,7 @@ impl Chaser {
 			
 			speed: 60.0,
 			chase_speed: 20.0,
+			is_chasing_player: false,
 			
 			view: 200.0,
 			
@@ -384,8 +388,16 @@ impl IsEnemy for Chaser {
 			
 			// chases the player
 			self.chase_player(&bbox, &u);
+			self.is_chasing_player = true;
 			
 		} else {
+			
+			// checks if the enemy was chasing the player last
+			// if so, the enemy should look around
+			if self.is_chasing_player {
+				self.is_chasing_player = false;
+				self.look_time = time::now().to_timespec();
+			}
 			
 			// walks between the two patrol points
 			self.patrol(&u);
