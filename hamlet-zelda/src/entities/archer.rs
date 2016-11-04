@@ -30,6 +30,19 @@ pub struct Archer {
 	direction: u8
 }
 
+impl Archer {
+	fn new(x: f64, y: f64) -> Archer {
+		
+		Archer {
+			x: x,
+			y: y,
+			w: 50.0,
+			h: 50.0,
+			direction: 0
+		}
+	}
+}
+
 // see traits/is_enemy.rs
 impl IsEnemy for Archer {
 	fn update(&mut self, u: &UpdateArgs, p: &mut Player) {
