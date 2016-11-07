@@ -9,3 +9,6 @@ pub mod is_enemy;
 
 // see direction.rs
 pub mod direction;
+
+// see automove.rs
+pub mod automove;
