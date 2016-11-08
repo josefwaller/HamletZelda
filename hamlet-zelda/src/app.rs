@@ -31,6 +31,9 @@ use traits::position::Position;
 // see entities/chaser.rs
 use entities::chaser::Chaser;
 
+// see entities/archer.rs
+use entities::archer::Archer;
+
 // the player
 use entities::player::Player;
 
@@ -78,7 +81,9 @@ impl App {
 			// creates a new vector
 			keys: Vec::new(),
 			
-			enemies: vec![Box::new(Chaser::new(300.0, 300.0, [[200.0, 300.0], [400.0, 300.0]]))]
+			enemies: vec![
+				Box::new(Chaser::new([[200.0, 300.0], [400.0, 300.0]])),
+				Box::new(Archer::new([[600.0, 200.0], [900.0, 200.0]]))]
 		}
 	}
 	

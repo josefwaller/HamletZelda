@@ -82,7 +82,7 @@ impl Chaser {
 	patrol: An array of coordinates to walk to
 		Ex: [[0, 0], [1, 1]] would tell the chaser to patrol between (x=0, y=0) and (x=1, y=1)
 	*/
-	pub fn new(x: f64, y: f64, patrol: [[f64; 2]; 2]) -> Chaser {
+	pub fn new(patrol: [[f64; 2]; 2]) -> Chaser {
 		Chaser {
 			x: patrol[0][0],
 			y: patrol[0][1],
