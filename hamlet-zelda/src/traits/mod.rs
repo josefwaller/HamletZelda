@@ -15,3 +15,6 @@ pub mod automove;
 
 // see patrol.rs
 pub mod patrol;
+
+// see search.rs
+pub mod search;

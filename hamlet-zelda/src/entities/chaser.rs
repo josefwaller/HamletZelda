@@ -22,6 +22,9 @@ use traits::automove::AutoMove;
 // see traits/patrol.rs
 use traits::patrol::Patrol;
 
+// see traits/search.rs
+use traits::search::Search;
+
 // used to time the enemy's actions
 use time::Timespec;
 
@@ -105,49 +108,6 @@ impl Chaser {
 		}
 	}
 	
-	/* 
-	Checks if the enemy can see the player
-	
-	bbox: The Bounding Box of the player
-	*/
-	fn can_see_player(&mut self, bbox: &BBox) -> bool{
-		
-		// first checks if the player is within its view in any direction
-		if (bbox.x - self.x).abs() < self.view {
-			if (bbox.y - self.y).abs() < self.view {
-				
-				// checks the enemy is looking in the right direction
-				if self.direction == self.UP() {
-					
-					if bbox.y < self.y {
-						return true
-					}
-					
-				} else if self.direction == self.DOWN() {
-					
-					if bbox.y > self.y {
-						return true
-					}
-					
-				} else if self.direction == self.RIGHT() {
-					
-					if bbox.x > self.x {
-						return true
-					}
-					
-				} else if self.direction == self.LEFT() {
-					
-					if bbox.x < self.x {
-						return true
-					}
-				}
-				
-			}
-		}
-		
-		false
-	}
-	
 	/*
 	Moves the Enemy towards the player
 	
@@ -159,6 +119,13 @@ impl Chaser {
 		let speed = self.chase_speed.clone();
 		self.move_to_point(bbox.x + bbox.w / 2.0, bbox.y + bbox.h / 2.0, speed, &u);
 		
+	}
+}
+
+// see traits/search.rs
+impl Search for Chaser {
+	fn get_view(&mut self) -> f64 {
+		self.view
 	}
 }
 
@@ -239,7 +206,7 @@ impl IsEnemy for Chaser {
 		let bbox = p.get_bbox();
 		
 		// checks if the chaser can see the player
-		if self.can_see_player(&bbox) {
+		if self.can_see_bbox(&bbox) {
 			
 			// chases the player
 			self.chase_player(&bbox, &u);
