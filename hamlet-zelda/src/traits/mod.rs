@@ -12,3 +12,6 @@ pub mod direction;
 
 // see automove.rs
 pub mod automove;
+
+// see patrol.rs
+pub mod patrol;

@@ -19,6 +19,9 @@ use traits::direction::Direction;
 // see traits/automove.rs
 use traits::automove::AutoMove;
 
+// see traits/patrol.rs
+use traits::patrol::Patrol;
+
 // used to time the enemy's actions
 use time::Timespec;
 
@@ -60,7 +63,7 @@ pub struct Chaser {
 	
 	// the current step the looking action is on
 	// goes left, forward, right, forward
-	look_step: u32,
+	look_step: u8,
 	
 	// how far it can look
 	view: f64
@@ -155,108 +158,6 @@ impl Chaser {
 		
 		let speed = self.chase_speed.clone();
 		self.move_to_point(bbox.x + bbox.w / 2.0, bbox.y + bbox.h / 2.0, speed, &u);
-		
-	}
-	
-	/*
-	Patrols between the enemy's two patrol points
-	
-	u: The UpdateArgs
-	*/
-	fn patrol(&mut self, u: &UpdateArgs) {
-		
-						
-		// checks if the enemy is done looking around
-		if time::now().to_timespec().sec - self.look_time.sec >= self.look_duration {
-			
-			// gets the point it needs to walk to
-			let point = self.patrol[self.patrol_index];
-			
-			// moves towards the point
-			let speed = self.speed.clone();
-			self.move_to_point(point[0], point[1], speed, &u);
-			
-			// checks if the enemy has reached the point
-			if self.x < point[0] {
-				if self.x + self.w > point[0] {
-					if self.y < point[1] {
-						if self.y + self.h > point[1] {
-								
-							// moves to the next point
-							self.patrol_index = (self.patrol_index + 1) % self.patrol.len();
-							self.look_time = time::now().to_timespec();
-							
-						}
-					}
-				}
-			}
-			
-		} else {
-				
-			// looks around
-			self.look_around(&u);
-		}
-	}
-	
-	/*
-	Causes the enemy to look around for the player
-	Looks (from the perspective of the enemy)
-	Right, Forward, Left, Forward
-	
-	u: The UpdateArgs
-	*/
-	fn look_around(&mut self, u: &UpdateArgs) {
-	
-		// gets the time elapsed
-		let elapsed = time::now().to_timespec().sec - self.look_time.sec;
-		
-		// looks differently depending on how long it has been
-		// the entire process is:
-		// - Look Left
-		// - Face Forward
-		// - Look Right
-		// - Face Forward
-		match self.look_step {
-			0 => {
-				
-				// looks left
-				if elapsed < self.look_duration / 4 {
-					
-					self.turn_left();
-					self.look_step = 1;
-				}
-			},
-			1 => {
-				
-				// faces forward
-				if elapsed >= self.look_duration / 4 {
-					
-					self.turn_right();
-					self.look_step = 2;
-				}
-			},
-			2 => {
-				
-				// looks right
-				if elapsed >= self.look_duration / 2 {
-					
-					self.turn_right();
-					self.look_step = 3;
-				}
-			},
-			3 => {
-				
-				// faces forward
-				if elapsed >= self.look_duration * 3 / 4 {
-					
-					self.turn_left();
-					self.look_step = 0;
-				}
-			},
-			_ => {
-				panic!("Error! Chaser Enemy has an invalid direct!! Oh No!");
-			}
-		}
 		
 	}
 }
@@ -359,4 +260,39 @@ impl IsEnemy for Chaser {
 		}
 		
 	}
+}
+
+/*
+see traits/patrol.rs
+*/
+impl Patrol for Chaser {
+	
+	fn get_look_duration(&mut self) -> i64 {
+		self.look_duration
+	}
+	fn get_look_time(&mut self) -> time::Timespec {
+		self.look_time
+	}
+	fn get_look_step(&mut self) -> u8 {
+		self.look_step
+	}
+	fn get_patrol(&mut self) -> [[f64; 2]; 2] {
+		self.patrol
+	}
+	fn get_patrol_index(&mut self) -> usize {
+		self.patrol_index
+	}
+	fn get_patrol_speed(&mut self) -> f64 {
+		self.speed
+	}
+	fn set_look_time(&mut self, l: time::Timespec) {
+		self.look_time = l;
+	}
+	fn set_look_step(&mut self, s: u8) {
+		self.look_step = s;
+	}
+	fn set_patrol_index(&mut self, s: usize) {
+		self.patrol_index = s;
+	}
+	
 }
