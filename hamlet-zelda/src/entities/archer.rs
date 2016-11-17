@@ -71,6 +71,47 @@ impl Archer {
 impl IsEnemy for Archer {
 	fn update(&mut self, u: &UpdateArgs, p: &mut Player) {
 		
+		// checks if the archer can see the player
+		if self.can_see_bbox(&p.get_bbox()) {
+			
+			let p_pos = p.get_bbox();
+			
+			// checks if the player is closer vertically or horiontally
+			let x: f64;
+			let y: f64;
+			
+			if (self.x - p_pos.x).abs() < (self.y - p_pos.y).abs() {
+				
+				// since the player is closer in the x axis, we want to move over to the same x axis as the player
+				x = p_pos.x;
+				
+				if self.y < p_pos.y {
+					
+					y = p_pos.y - 200.0;					
+				}else {
+					
+					y = p_pos.y + 200.0;					
+				}
+				
+			}else {
+				
+				if self.x < p_pos.x {
+					
+					x = p_pos.x - 200.0;					
+				}else {
+					
+					x = p_pos.x + 200.0;					
+				}
+				y = p_pos.y;
+			}
+			
+			let speed = self.speed.clone();
+			self.move_to_point(x + p_pos.w / 2.0, y + p_pos.h / 2.0, speed, &u);
+			
+		} else {
+			self.patrol(&u);
+		}
+		
 	}
 }
 
