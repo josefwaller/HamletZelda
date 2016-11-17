@@ -44,7 +44,10 @@ pub struct Player {
 	h: f64,
 	
 	// the speed
-	speed: f64
+	speed: f64,
+	
+	// the key to the spritesheet_key
+	spritesheet_key: String
 }
 
 impl Player {
@@ -61,7 +64,9 @@ impl Player {
 			w: 50.0,
 			h: 50.0,
 			
-			speed: 50.0
+			speed: 50.0,
+			
+			spritesheet_key: String::from("assets\\images\\link_spritesheet.png")
 		}
 	}
 	
@@ -124,10 +129,8 @@ impl HasSprite for Player {
 	
 	fn get_sprite(&mut self) -> String {
 		
-		// temporarily returns a nonsense string
-		// will return a sprite key when sprites are
-		// implemented
-		String::from("Hello World!")
+		// returns the sprite key of its sprite
+		self.spritesheet_key.clone()
 	}
 	
 	fn get_debug_color(&mut self) -> [f32; 4] {
