@@ -92,7 +92,10 @@ impl App {
 	
 	w: The PistonWindow object, which is used for its Factory attribute
 	*/
-	pub fn load_images(&mut self, w: &mut PistonWindow) {
+	pub fn load_images(&mut self, mut w: &mut PistonWindow) {
+		
+		// loads the player's sprite sheep
+		self.sprite_store.add_sprite(&self.player.get_sprite(), &mut w);
 		
 	}
 	
